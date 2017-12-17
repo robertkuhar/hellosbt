@@ -89,3 +89,5 @@ Scala as well).  Incidental Complexity.
 
 The contents of `.settings` is a sequence of key-value pairs called "Setting Expressions" using the *build.sbt DSL*.
 
+"Setting Expressions" aren't the only thing that can appear here.  Apparently there are also "Task Expressions" and
+some "Input thingie" which they present in the docs as `SettingKey[T]`, `TaskKey[T]`, or `InputKey[T]`.
