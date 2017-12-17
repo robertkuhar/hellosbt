@@ -86,3 +86,6 @@ Which way is "correct"?  Googling around this comes up in something called "Scop
 now.  It does seem like for a simple HelloSBT project the inThisBuild stuff is overkill.  I think I could have done it
 all with just up-the-middle settings.  I'm beginning to remember my distaste for SBT (and I think I projected this onto
 Scala as well).  Incidental Complexity.
+
+The contents of `.settings` is a sequence of key-value pairs called "Setting Expressions" using the *build.sbt DSL*.
+
