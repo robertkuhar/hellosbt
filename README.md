@@ -59,24 +59,23 @@ project can be ambiguous, we often call it a subproject in this guide." - Uh, oh
 The "HelloSBT" project was boot strapped using some `$ sbt new scala/scala-seed.g8` workflow and I end up with a
 build.sbt file that has more than a few differences relative to the once from the docs.
 
-    // build.sbt from scala/scala-seed.g8
-    lazy val root = (project in file(".")).
-      settings(
-        inThisBuild(List(
-          organization := "com.example",
-          scalaVersion := "2.12.3",
-          version      := "0.1.0-SNAPSHOT"
-        )),
-        name := "HelloSBT",
-        libraryDependencies += scalaTest % Test
-      )
-
-    // build.sbt from http://www.scala-sbt.org/1.x/docs/Basic-Def.html#What+is+a+build+definition%3F
-    lazy val root = (project in file("."))
-      .settings(
-        name := "Hello",
-        scalaVersion := "2.12.3"
-      )
+build.sbt from scala/scala-seed.g8 | build.sbt from http://www.scala-sbt.org/1.x/docs/Basic-Def.html#What+is+a+build+definition%3F
+- | -
+```lazy val root = (project in file(".")).
+     settings(
+       inThisBuild(List(
+         organization := "com.example",
+         scalaVersion := "2.12.3",
+         version      := "0.1.0-SNAPSHOT"
+       )),
+       name := "HelloSBT",
+       libraryDependencies += scalaTest % Test
+     )``` |
+```lazy val root = (project in file("."))
+     .settings(
+       name := "Hello",
+       scalaVersion := "2.12.3"
+     )```
 
 Which way is "correct"?  Googling around this comes up in something called "Scopes".  I'm not going to worry about it
 now.  It does seem like for a simple HelloSBT project the inThisBuild stuff is overkill.  I think I could have done it
