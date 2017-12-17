@@ -91,3 +91,16 @@ The contents of `.settings` is a sequence of key-value pairs called "Setting Exp
 
 "Setting Expressions" aren't the only thing that can appear here.  Apparently there are also "Task Expressions" and
 some "Input thingie" which they present in the docs as `SettingKey[T]`, `TaskKey[T]`, or `InputKey[T]`.
+
+Setting Keys are Strings, so numeric values are right out.
+
+"The build.sbt may also be interspersed with `vals`, `lazy vals`, and `defs`.  Top-level objects and classes are not
+allowed in build.sbt.  Those should go in the project/ directory as Scala source files." - yeah, this is also where I
+started to get worried before.  You've got to wander the build.sbt and project/ directory to figure out what is going
+on.  Its not a "everything is in one place" thing.  I bet IntelliJ helps here.
+
+"There are three flavors of key":
+
+1. SettingKey[T]: a key for a value computed once (the value is computed when loading the subproject, and kept around).
+1. TaskKey[T]: a key for a value, called a task, that has to be recomputed each time, potentially with side effects.
+1. InputKey[T]: a key for a task that has command line arguments as input. Check out Input Tasks for more details.
