@@ -26,7 +26,7 @@ cleaned, compiled, and ran a specific Spec.  The docs call this "Batch mode".
 
 They recommend using the sbt shell to do all of this.  Within the sbt shell the `"testOnly example.HelloSpec"` doesn't
 need the quotes:  `sbt:HelloSBT> testOnly exampleHelloSpec`.  The JVM startup only happens once.  It appears to be
-hotswapping the changes well.
+hot-swapping the changes well.
 
 So the REPL reachable from sbt is called the Console:
 
@@ -37,3 +37,7 @@ So the REPL reachable from sbt is called the Console:
     scala>
 
 ^D gets you out.
+
+There is an SBT Shell within IntelliJ.  Stuff seems to run faster from the command line, but this gets your REPL right
+into the IDE.  You can't get out of `console` in the IntelliJ one with ^D, but it turns out that `:help` is available
+and `:quit` gets you out.
