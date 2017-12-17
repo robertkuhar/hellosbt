@@ -104,3 +104,92 @@ on.  Its not a "everything is in one place" thing.  I bet IntelliJ helps here.
 1. SettingKey[T]: a key for a value computed once (the value is computed when loading the subproject, and kept around).
 1. TaskKey[T]: a key for a value, called a task, that has to be recomputed each time, potentially with side effects.
 1. InputKey[T]: a key for a task that has command line arguments as input. Check out Input Tasks for more details.
+
+Its a bizarre 2-step to add a Task.  First you need to get the task a name and a Type, then you can use it in the
+.settings thing.
+
+```
+lazy val root = (project in file("."))
+  .settings(
+    name := "HelloSBT",
+    ...
+    hello := { println("Hello!") },
+    ...
+  )
+
+// This declaration makes me able to use hello in .settings as a Task.
+lazy val hello = taskKey[Unit]("An example task")
+```
+
+"If you type the name of a setting key rather than a task key, the value of the setting key will be displayed. Typing a
+task key name executes the task but doesn’t display the resulting value; to see a task’s result, use show <task name>
+rather than plain <task name>. The convention for keys names is to use camelCase so that the command line name and the
+Scala identifiers are the same." - Great.  The task executes, but you don't get to see the output?!?
+
+```
+sbt:HelloSBT> hello
+Hello!
+[success] Total time: 0 s, completed Dec 16, 2017 5:55:57 PM
+sbt:HelloSBT> show hello
+Hello!
+[info] ()
+[success] Total time: 0 s, completed Dec 16, 2017 5:56:01 PM
+sbt:HelloSBT> show hello
+Hello!
+[info] ()
+[success] Total time: 0 s, completed Dec 16, 2017 5:58:24 PM
+```
+The `[info] ()` is the return value of hello which is a `Unit` (what Scala calls the concept of *void*)
+
+I think this stupid, but I can work with it.  Modifications to the `hello` task configuration to allow it to return the
+String "OK" on completion was easy enough.  Change the return type down in that `lazy val hello` and modify the task
+code in `.settings`.
+
+```
+lazy val root = (project in file("."))
+  .settings(
+    name := "HelloSBT",
+    ...
+    hello := {
+      println("Hello!")
+      "OK"
+    },
+    ...
+  )
+
+lazy val hello = taskKey[String]("An example task")
+```
+
+From the REPL `hello` Task execution now looks like...
+
+```
+sbt:HelloSBT> reload
+[info] Loading settings from idea.sbt ...
+[info] Loading global plugins from /Users/robert.kuhar/.sbt/1.0/plugins
+[info] Loading project definition from /Users/robert.kuhar/dev/hellosbt/project
+[info] Loading settings from build.sbt ...
+[info] Set current project to HelloSBT (in build file:/Users/robert.kuhar/dev/hellosbt/)
+sbt:HelloSBT> show hello
+Hello!
+[info] OK
+[success] Total time: 0 s, completed Dec 16, 2017 5:58:32 PM
+sbt:HelloSBT> hello
+Hello!
+[success] Total time: 0 s, completed Dec 16, 2017 5:58:42 PM
+sbt:HelloSBT>
+```
+
+From the command line you also have to be explicit if you want the return...
+```
+tcc-rkuhar:hellosbt robert.kuhar$ sbt "show hello"
+[info] Loading settings from idea.sbt ...
+[info] Loading global plugins from /Users/robert.kuhar/.sbt/1.0/plugins
+[info] Loading project definition from /Users/robert.kuhar/dev/hellosbt/project
+[info] Loading settings from build.sbt ...
+[info] Set current project to HelloSBT (in build file:/Users/robert.kuhar/dev/hellosbt/)
+Hello!
+[info] OK
+[success] Total time: 0 s, completed Dec 16, 2017 6:05:33 PM
+```
+
+Begin at "Adding library dependencies" http://www.scala-sbt.org/1.x/docs/Basic-Def.html#Adding+library+dependencies
