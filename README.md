@@ -41,3 +41,43 @@ So the REPL reachable from sbt is called the Console:
 There is an SBT Shell within IntelliJ.  Stuff seems to run faster from the command line, but this gets your REPL right
 into the IDE.  You can't get out of `console` in the IntelliJ one with ^D, but it turns out that `:help` is available
 and `:quit` gets you out.
+
+The Shell has a history command, but its not "history".  It is `!:` to show all history, or like `!:10` to show the last
+10 commands.  There is a bunch of stuff you can do:  http://www.scala-sbt.org/1.x/docs/Running.html#History+Commands
+
+### Build Definition
+
+http://www.scala-sbt.org/1.x/docs/Basic-Def.html
+
+You bind your project to a specific version of SBT through the `project/build.properties` file.  This allows other
+SBT versions to use the correct version for the project.  If the required version is not available locally, the sbt
+launcher will download it for you
+
+"A build definition is defined in build.sbt, and it consists of a set of projects (of type Project). Because the term
+project can be ambiguous, we often call it a subproject in this guide." - Uh, oh.
+
+The "HelloSBT" project was boot strapped using some `$ sbt new scala/scala-seed.g8` workflow and I end up with a
+build.sbt file that has more than a few differences relative to the once from the docs.
+
+    // build.sbt from scala/scala-seed.g8
+    lazy val root = (project in file(".")).
+      settings(
+        inThisBuild(List(
+          organization := "com.example",
+          scalaVersion := "2.12.3",
+          version      := "0.1.0-SNAPSHOT"
+        )),
+        name := "HelloSBT",
+        libraryDependencies += scalaTest % Test
+      )
+
+    // build.sbt from http://www.scala-sbt.org/1.x/docs/Basic-Def.html#What+is+a+build+definition%3F
+    lazy val root = (project in file("."))
+      .settings(
+        name := "Hello",
+        scalaVersion := "2.12.3"
+      )
+
+Which way is "correct"?  Googling around this comes up in something called "Scopes".  I'm not going to worry about it
+now.  It does seem like for a simple HelloSBT project the inThisBuild stuff is overkill.  I think I could have done it
+all with just up-the-middle settings.
