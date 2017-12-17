@@ -10,7 +10,9 @@ lazy val root = (project in file("."))
       println("Hello!")
       "OK"
     },
-    libraryDependencies += scalaTest % Test
+    libraryDependencies += scalaTest % Test,
+    libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2",
+    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
   )
 
 lazy val hello = taskKey[String]("An example task")

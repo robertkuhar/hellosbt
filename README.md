@@ -192,4 +192,9 @@ Hello!
 [success] Total time: 0 s, completed Dec 16, 2017 6:05:33 PM
 ```
 
-Begin at "Adding library dependencies" http://www.scala-sbt.org/1.x/docs/Basic-Def.html#Adding+library+dependencies
+## 2017-12-17 Getting Started, Adding library dependencies
+
+http://www.scala-sbt.org/1.x/docs/Basic-Def.html#Adding+library+dependencies
+
+I successfully added a logging dependency but I can't figure out how to instantiate a Logger correctly in my Hello
+App!?!  This is now https://stackoverflow.com/questions/47859580/why-does-classoft-not-work-in-my-object
