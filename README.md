@@ -197,4 +197,8 @@ Hello!
 http://www.scala-sbt.org/1.x/docs/Basic-Def.html#Adding+library+dependencies
 
 I successfully added a logging dependency but I can't figure out how to instantiate a Logger correctly in my Hello
-App!?!  This is now https://stackoverflow.com/questions/47859580/why-does-classoft-not-work-in-my-object
+App!?!  This is now https://stackoverflow.com/questions/47859580/why-does-classoft-not-work-in-my-object.
+
+Question answered.  It turns out, you can't get classOf and object, you need the class!  Makes that whole "companion
+object" thing kind-of useless for logging, but, oh well.  Create a stubb class and grab the clasOf it.  Its kind-of
+up-the-middle from here dropping configuration into src/main/resources/logback.xml and going from there.
